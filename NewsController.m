@@ -17,10 +17,9 @@
 {
     [super viewDidLoad];
     
-    self.title=@"Truth Universal News";
-    self.view.backgroundColor = [UIColor blackColor];
+    //self.title=@"Truth Universal News";
+    //self.view.backgroundColor = [UIColor blackColor];
 
-    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSURL *newsURL = [NSURL URLWithString:@"http://truthuniversal.com/news"];
@@ -179,7 +178,7 @@
     //cell.textLabel.text = [[musicArray objectAtIndex:indexPath.row] objectForKey:@"results"];
     
     
-     cell.textLabel.text = [[newsArray objectAtIndex:indexPath.row] objectForKey:@"news_title"];
+    cell.textLabel.text = [[newsArray objectAtIndex:indexPath.row] objectForKey:@"news_title"];
     
     cell.detailTextLabel.text = [[newsArray objectAtIndex:indexPath.row] objectForKey:@"news_subtitle"];
     

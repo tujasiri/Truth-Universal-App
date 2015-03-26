@@ -104,7 +104,7 @@
         
         if (successBlock) successBlock();
         
-        NSLog(@"responseString == @",operation.responseString);
+        NSLog(@"responseString == %@",operation.responseString);
         
     } failure:^(AFHTTPRequestOperation *operation, id responseObject){
         

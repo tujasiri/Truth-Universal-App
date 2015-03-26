@@ -57,6 +57,14 @@
 
 @property (strong, nonatomic) STPCard* stripeCard;
 
+@property (strong,nonatomic) STPCard* stripeFormData;
+@property (strong,nonatomic) NSString* stripeFormEmail;
+
+@property (strong, nonatomic) UILabel* nameLabel;
+
+
+
+
 - (IBAction)completeButtonTapped:(id)sender;
 
 
@@ -73,17 +81,206 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    
     if (self) {
         // Custom initialization
+        
     }
     return self;
+}
+
+-(void) awakeFromNib {
+    //self.nameTextField.delegate = self;
+    //textfield3.delegate = self;
+
+}
+
+/*
+
+- (BOOL)textFieldShouldReturn:(UITextField *)tf {
+    [tf endEditing:YES];
+    return NO;
+}
+ */
+
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+
+    NSLog(@"DidBeginEditing");
+
+
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+
+
+/*
+    NSLog(@"DidEndEditing...text is %@",textField.text);
+    self.stripeCard = [[STPCard alloc] init];
+    self.stripeCard.name = self.nameTextField.text;
+    self.stripeCard.number = self.cardNumber.text;
+    self.stripeCard.cvc = self.CVCNumber.text;
+    self.stripeCard.expMonth = [self.selectedMonth integerValue];
+    self.stripeCard.expYear = [self.selectedYear integerValue];
+    self.stripeCard.addressLine1 = self.addressTextField.text;
+    self.stripeCard.addressCountry = self.countryTextField.text;
+    self.stripeCard.addressCity = self.cityTextField.text;
+    self.stripeCard.addressState = self.stateTextField.text;
+    self.stripeCard.addressZip = self.zipTextField.text;
+ */
+    NSLog(@"textField CLASS==> %@",textField.class);
+    
+    NSLog(@"textField DESCRIPTION==> %@",textField.description);
+    
+    NSLog(@"textField Length == %d",textField.text.length);
+    
+    NSLog(@"textField tag == %d",textField.tag);
+
+    //NSLog(@"textField context ID == %@",self.textInputContextIdentifier.description);
+    
+    NSLog(@"textField delegate == %@", textField.delegate);
+    
+
+
+
+    
+    
+    CGPoint origin = textField.frame.origin;
+    CGPoint point = [textField.superview convertPoint:origin toView:self.tableView];
+    
+    NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:point];
+    
+    NSLog(@"Index Path==%@",indexPath);
+    
+    NSLog(@"Index Path Row==%d",indexPath.row);
+    NSLog(@"Index Path Section==%d",indexPath.section);
+
+    NSInteger tableRow = indexPath.row;
+    NSInteger tableSect = indexPath.section;
+
+
+
+
+
+    if(textField.text.length != 0){
+        
+        //name field storage
+        if((textField == self.nameTextField) && (tableSect == 0 && tableRow == 0)){
+            self.stripeFormData.name =  textField.text;
+            NSLog(@"storing self.nameTextField***==%@",textField.text);
+            
+            
+            //[[self.tableView]
+            
+            //NSLog(@"Section==%d",self.tableView.);
+
+        }
+        else if((textField == self.emailTextField) && (tableSect == 0 && tableRow == 1)){
+            self.stripeFormEmail =  textField.text;
+        }
+        else if((textField == self.addressTextField) && (tableSect == 0 && tableRow == 2)){
+            self.stripeFormData.addressLine1 =  textField.text;
+            //NSLog(@"self.addressTextField***");
+            
+        }
+        else if((textField == self.cityTextField) && (tableSect == 0 && tableRow == 3)){
+            self.stripeFormData.addressCity =  textField.text;
+        }
+        else if((textField == self.stateTextField) && (tableSect == 0 && tableRow == 4)){
+            self.stripeFormData.addressState =  textField.text;
+        }
+        else if((textField == self.zipTextField) && (tableSect == 0 && tableRow == 5)){
+            self.stripeFormData.addressZip =  textField.text;
+        }
+        else if((textField == self.countryTextField) && (tableSect == 0 && tableRow == 6)){
+            self.stripeFormData.addressCountry =  textField.text;
+        }
+        else if((textField == self.nameTextField) && (tableSect == 1 && tableRow == 0)){
+            self.stripeFormData.number =  textField.text;
+            NSLog(@"storing self.cardNumber***==%@",textField.text);
+        }
+
+        
+        //card field storage
+        /*
+        else if((textField == self.cardNumber) && (tableSect == 1 && tableRow == 0)){
+            self.stripeFormData.number =  textField.text;
+            NSLog(@"storing self.cardNumber***==%@",textField.text);
+        }
+        */
+        else if((textField == self.expirationDateTextField) && (tableSect == 1 && tableRow == 1)){
+            
+            NSArray* tmpDate = [textField.text componentsSeparatedByString: @"/"];
+            NSString* tmpMonth= [tmpDate objectAtIndex: 0];
+            NSString* tmpYear = [tmpDate objectAtIndex: 1];
+            
+            self.stripeFormData.expMonth = [tmpMonth integerValue];
+            self.stripeFormData.expYear = [tmpYear integerValue];
+        }
+        
+        else if((textField == self.CVCNumber) && (tableSect == 1 && tableRow == 2)){
+            self.stripeFormData.cvc =  textField.text;
+            NSLog(@"storing self.cvcNumber***==%@",textField.text);
+
+        }
+    
+        /*
+        else if((textField == self.nameTextField) && (tableSect == 1 && tableRow == 2)){
+            self.stripeFormData.cvc =  textField.text;
+            NSLog(@"storing self.cvcNumber***==%@",textField.text);
+            
+        }
+        */
+        
+       
+        
+        
+        
+        
+        //else
+                //;;
+            //NSLog(@"ELSE");
+        
+
+        
+        
+    
+    }
+    
+    NSLog(@"stripeformData.name (in textFieldDidEndEditing) ==%@",self.stripeFormData.name);
+    NSLog(@"stripeformData.number (in textFieldDidEndEditing) ==%@",self.stripeFormData.number);
+
+
+
+
+
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    NSLog(@"heeeeere***");
+    
+    return YES;
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.nameTextField) {
+        NSLog(@"heeeeere");
+    }
+    
+    NSLog(@"heeeeere***");
+
+    return YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.title=@"Checkout::Customer Info";
+    //self.title=@"Checkout::Customer Info";
+    
+    self.stripeFormData = [[STPCard alloc] init];
     
     
     //self.view.backgroundColor = [UIColor blackColor];
@@ -92,7 +289,12 @@
                         @"04 - April", @"05 - May", @"06 - June", @"07 - July", @"08 - August", @"09 - September",
                         @"10 - October", @"11 - November", @"12 - December"];
     
-    NSLocale *locale = [NSLocale currentLocale];
+    
+    
+    //NSLocale *locale = [NSLocale currentLocale];
+    
+    NSLocale *locale = [NSLocale systemLocale];
+
     NSArray *countryArrayTMP = [NSLocale ISOCountryCodes];
     
     //NSMutableArray *sortedCountryArray = [[NSMutableArray alloc] init];
@@ -106,7 +308,12 @@
         
         NSLog(@"country code ==>%@ :: country name==>%@",countryCode, displayNameString);
         
-        [self.countryArray addObject:displayNameString];
+        if  (![displayNameString length])
+            continue;
+        else
+            //[self.countryArray setObject:displayName forKey:countryCode];
+
+            [self.countryArray addObject:displayNameString];
         
     }
     
@@ -137,8 +344,18 @@
     
     
     self.stripeCard = [[STPCard alloc] init];
-    self.stripeCard.name = self.nameTextField.text;
-    self.stripeCard.number = self.cardNumber.text;
+    
+    //self.stripeCard.name = self.nameTextField.text;
+    
+    self.stripeCard.name = self.stripeFormData.name;
+
+    
+    
+    //self.stripeCard.number = self.cardNumber.text;
+    
+    self.stripeCard.number = self.stripeFormData.number;
+
+    
     self.stripeCard.cvc = self.CVCNumber.text;
     self.stripeCard.expMonth = [self.selectedMonth integerValue];
     self.stripeCard.expYear = [self.selectedYear integerValue];
@@ -147,8 +364,32 @@
     self.stripeCard.addressCity = self.cityTextField.text;
     self.stripeCard.addressState = self.stateTextField.text;
     self.stripeCard.addressZip = self.zipTextField.text;
-
     
+    NSString *namemsg = [NSString stringWithFormat:@"The stripeFormData.number is %@",self.stripeFormData.number];
+    
+    /*
+    UIAlertView * alertx = [[UIAlertView alloc] initWithTitle:@"Name Check"
+                                                     message:namemsg
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+
+
+    [alertx show];
+    */
+    /*
+    
+    namemsg = [NSString stringWithFormat:@"The stripeCard.name is %@",self.stripeCard.name];
+    
+    alertx = [[UIAlertView alloc] initWithTitle:@"Stripe Name Check"
+                                        message:namemsg
+                                       delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+    
+    [alertx show];
+     */
+
     
     //2
     if ([self validateCustomerInfo]) {
@@ -205,7 +446,7 @@
                          if(error)
                              [self handleStripeError:error];
                          else
-                             [self postStripeToken:token.tokenId];
+                                [self postStripeToken:token.tokenId];
                      }];
 
 }
@@ -364,7 +605,9 @@
     [alertSuccess show];
     
     //Send confirmation email
-    EmailManager* emailManager = [[EmailManager alloc] initWithRecipient:self.nameTextField.text
+    //EmailManager* emailManager = [[EmailManager alloc] initWithRecipient:self.nameTextField.text
+
+    EmailManager* emailManager = [[EmailManager alloc] initWithRecipient:self.stripeFormData.name
                                                           recipientEmail:self.emailTextField.text
                                                         recipientAddress:self.addressTextField.text
                                                            recipientCity:self.cityTextField.text
@@ -425,24 +668,73 @@
         cell = [[CheckoutInputCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"CheckoutInputCell"];
         
     }
-     
+    
+    cell.textField.delegate = self;
+    
+    self.nameTextField.delegate = self;
+    self.emailTextField.delegate = self;
+    self.addressTextField.delegate = self;
+    self.cityTextField.delegate = self;
+    self.stateTextField.delegate = self;
+    self.cardNumber.delegate = self;
+    self.CVCNumber.delegate = self;
+    self.countryTextField.delegate = self;
+    self.expirationDateTextField.delegate = self;
+    self.stateTextField.delegate = self;
+    self.zipTextField.delegate = self;
+    
+    
+    
+    
+    NSLog(@"cell is here");
+    
     
     if (section == 0 && row == 0) {
+        
+        NSLog(@"rebuilding name cell");
+
+        
+        
         //CheckoutInputCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutInputCell"];
         CheckoutInputCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutInputCell"];
 
         cell.nameLabel.text = @"Name";
         cell.textField.placeholder = @"Required";
+        
+        NSLog(@"Here NAME--Section 0--cell.textField(ph)==%@",cell.textField.text);
+        
+        NSLog(@"name label==%@",cell.nameLabel.text);
+
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
         self.nameTextField = cell.textField;
+        NSLog(@"Here--cell.textField==%@",cell.textField.text);
+        NSLog(@"Here--self.nameTextField==%@",self.nameTextField.text);
+        
+
+        NSLog(@"stripeformData.name ==%@",self.stripeFormData.name);
+        
+        if(self.stripeFormData.name.length !=0){
+            cell.textField.text = self.stripeFormData.name;
+            NSLog(@"se**tting name field...");
+
+        }
+        
+
         return cell;
     }
     else if (section == 0 && row == 1) {
+        
+        
         CheckoutInputCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutInputCell"];
         cell.nameLabel.text = @"E-mail";
         cell.textField.placeholder = @"Required";
         self.emailTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        
+        if(self.stripeFormEmail.length !=0)
+            cell.textField.text = self.stripeFormEmail;
+        
+        
         return cell;
     }
     else if (section == 0 && row == 2) {
@@ -451,6 +743,11 @@
         cell.textField.placeholder = @"Required";
         self.addressTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        
+        if(self.stripeFormData.addressLine1.length !=0)
+            cell.textField.text = self.stripeFormData.addressLine1;
+    
+        
         return cell;
     }
     else if (section == 0 && row == 3) {
@@ -459,6 +756,10 @@
         cell.textField.placeholder = @"Required";
         self.cityTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        
+        if(self.stripeFormData.addressCity.length !=0)
+            cell.textField.text = self.stripeFormData.addressCity;
+        
         return cell;
     }
     else if (section == 0 && row == 4) {
@@ -467,6 +768,10 @@
         cell.textField.placeholder = @"Required";
         self.stateTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        
+        if(self.stripeFormData.addressState.length !=0)
+            cell.textField.text = self.stripeFormData.addressState;
+        
         return cell;
     }
     else if (section == 0 && row == 5) {
@@ -475,6 +780,10 @@
         cell.textField.placeholder = @"Required";
         self.zipTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
+        
+        if(self.stripeFormData.addressZip.length !=0)
+            cell.textField.text = self.stripeFormData.addressZip;
+        
         return cell;
     }
     else if (section == 0 && row == 6) {
@@ -484,24 +793,56 @@
         self.countryTextField = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeAlphabet;
         [self configureCountryPickerView];
+        
+        if(self.stripeFormData.addressCountry.length !=0)
+            cell.textField.text = self.stripeFormData.addressCountry;
 
         return cell;
     }
     
     else if (section == 1 && row == 0) {
+        
+        NSLog(@"rebuilding card cell");
+
+        
         CheckoutInputCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutInputCell"];
         cell.nameLabel.text = @"Card Number";
         cell.textField.placeholder = @"Required";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        self.cardNumber = cell.textField;
+        
+        
+        
+        //if((self.stripeFormData.number.length !=0) && ([cell.nameLabel.text  isEqual: @"Card Number"])){
+        
+        NSLog(@"The card data is %@",self.stripeFormData.number);
+
+        NSLog(@"The card number length is %lu",(unsigned long)self.stripeFormData.number.length);
+
+        if(self.stripeFormData.number.length !=0) {
+            self.cardNumber = cell.textField;
+            NSLog(@"The card is getting se***t");
+            cell.textField.text = self.stripeFormData.number;
+        }
+        else
+            cell.textField.text=@"";
+        
+        
         return cell;
     }
     else if (section == 1 && row == 1) {
         CheckoutInputCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"CheckoutInputCell"];
         cell.nameLabel.text = @"Exp. Date";
-        cell.textField.text = @"Required";
+        cell.textField.text = @"12/2020";
         cell.textField.textColor = [UIColor lightGrayColor];
         self.expirationDateTextField = cell.textField;
+        
+        if((self.stripeFormData.expMonth !=0) && (self.stripeFormData.expYear !=0))
+            cell.textField.text =   [NSString stringWithFormat:@"%u/%u",(unsigned)self.stripeFormData.expMonth,(unsigned)self.stripeFormData.expYear];
+
+        
+        
+
+        
         return cell;
     }
     else if (section == 1 && row == 2) {
@@ -511,10 +852,19 @@
         self.CVCNumber = cell.textField;
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         [self configurePickerView];
+        
+        if(self.stripeFormData.cvc.length !=0)
+            cell.textField.text = self.stripeFormData.cvc;
+        
         return cell;
     }
     
     //return cell;
+    
+    NSLog(@"Here--cell.textField after==%@",cell.textField.text);
+    NSLog(@"Here--self.nameTextField after==%@",self.nameTextField.text);
+    NSLog(@"Here--self.cardNumber after==%@",self.cardNumber.text);
+
     
     return nil;
 

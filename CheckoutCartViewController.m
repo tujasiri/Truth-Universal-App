@@ -28,9 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.title=@"Checkout Cart";
+    //self.title=@"Checkout Cart";
     
-    self.view.backgroundColor = [UIColor blackColor];
+    //self.view.backgroundColor = [UIColor blackColor];
     
     self.checkoutCart = [CheckoutCart sharedInstance];
     
@@ -41,6 +41,10 @@
     [backgroundImage setCenter:CGPointMake(CGRectGetMidX([self.view bounds]), CGRectGetMidY([self.view bounds]))];
     
     backgroundImage.alpha = .075;
+    
+    //self.tableView.bounces = NO;
+    //self.tableView.scrollEnabled = YES;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
